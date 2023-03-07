@@ -9,4 +9,16 @@ version="4.0">
     <welcome-file>form.jsp</welcome-file>
    
   </welcome-file-list>
+  
+  
+  <servlet>
+  	<servlet-name>FormServlet</servlet-name>
+  	<servlet-class>com.deborasroka.simpleform.control.FormServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>FormServlet</servlet-name>
+  	<url-pattern>/formSend</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

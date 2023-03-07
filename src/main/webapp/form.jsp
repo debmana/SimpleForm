@@ -104,15 +104,15 @@ select {
 	justify-content: space-between;
 }
 
-.birthdate select.day {
+.birthday select.day {
 	width: 35px;
 }
 
-.birthdate select.mounth {
+.birthdate select.month {
 	width: calc(100% - 94px);
 }
 
-.birthdate input {
+.birthday input {
 	width: 38px;
 	vertical-align: unset;
 }
@@ -164,7 +164,7 @@ button:hover {
 </head>
 <body>
 	<div class="main-block">
-		<form action="/" method="post">
+		<form action="formSend" method="post" >
 			<h1>Create a free account</h1>
 			<fieldset>
 				<legend>
@@ -232,7 +232,7 @@ button:hover {
 							</div>
 						</div>
 						<div class="birthdate">
-							<label>Birthdate*</label>
+							<label>Day*</label>
 							<div class="bdate-block">
 								<select class="day" required>
 									<option value="01">01</option>
@@ -266,8 +266,10 @@ button:hover {
 									<option value="29">29</option>
 									<option value="30">30</option>
 									<option value="31">31</option>
-								</select> <select class="mounth" required>
-									<option value=""></option>
+								</select> 
+								
+								<select class="month" required value="nothing">
+									
 									<option value="January">January</option>
 									<option value="February">February</option>
 									<option value="March">March</option>
@@ -280,7 +282,8 @@ button:hover {
 									<option value="October">October</option>
 									<option value="November">November</option>
 									<option value="December">December</option>
-								</select> <input type="text" name="name" required>
+								</select> 
+								<input type="text" name="bdayYear" required>
 							</div>
 						</div>
 
