@@ -195,19 +195,22 @@ button:hover {
 				<div class="personal-details">
 					<div>
 						<div>
-							<label>Name*</label><input type="text" name="name" required>
+							<label>First name*</label><input type="text" name="name" required>
+						</div>
+												<div>
+						<label>Last name*</label><input type="text" name="lastName" required>
 						</div>
 						<div>
 							<label>Phone*</label><input type="text" name="phone" required>
 						</div>
 						<div>
-							<label>Street</label><input type="text" name="street">
+							<label>Address</label><input type="text" name="address">
 						</div>
 						<div>
 							<label>City</label><input type="text" name="city" required>
 						</div>
 						<div>
-							<label>Country*</label> <select>
+							<label>Country*</label> <select name="country">
 								<option value="USA">USA</option>
 								<option value="Armenia">Armenia</option>
 								<option value="Brazil">Brazil</option>
@@ -218,23 +221,23 @@ button:hover {
 							</select>
 						</div>
 						<div>
-							<label>Website</label><input type="text" name="name">
+							<label>Website</label><input type="text" name="website">
 						</div>
 					</div>
 					<div>
 						<div>
 							<label>Gender*</label>
 							<div class="gender">
-								<input type="radio" value="none" id="male" name="gender"
+								<input type="radio" value="M" id="male" name="gender"
 									required /> <label for="male" class="radio">Male</label> 
-								<input type="radio" value="none" id="female" name="gender" required />
+								<input type="radio" value="F" id="female" name="gender" required />
 								<label for="female" class="radio">Female</label>
 							</div>
 						</div>
 						<div class="birthdate">
 							<label>Day*</label>
 							<div class="bdate-block">
-								<select class="day" required>
+								<select class="day" required name="bday">
 									<option value="01">01</option>
 									<option value="02">02</option>
 									<option value="03">03</option>
@@ -268,20 +271,20 @@ button:hover {
 									<option value="31">31</option>
 								</select> 
 								
-								<select class="month" required value="nothing">
+								<select class="month" required value="nothing" name="bmonth">
 									
-									<option value="January">January</option>
-									<option value="February">February</option>
-									<option value="March">March</option>
-									<option value="April">April</option>
-									<option value="May">May</option>
-									<option value="June">June</option>
-									<option value="July">July</option>
-									<option value="August">August</option>
-									<option value="September">September</option>
-									<option value="October">October</option>
-									<option value="November">November</option>
-									<option value="December">December</option>
+									<option value="1">January</option>
+									<option value="2">February</option>
+									<option value="3">March</option>
+									<option value="4">April</option>
+									<option value="5">May</option>
+									<option value="6">June</option>
+									<option value="7">July</option>
+									<option value="8">August</option>
+									<option value="9">September</option>
+									<option value="10">October</option>
+									<option value="11">November</option>
+									<option value="12">December</option>
 								</select> 
 								<input type="text" name="bdayYear" required>
 							</div>
@@ -296,18 +299,18 @@ button:hover {
 				</legend>
 				<div class="terms-mailing">
 					<div class="checkbox">
-						<input type="checkbox" name="checkbox"><span>I
+						<input type="checkbox" name="checkbox" value="accept"><span>I
 							accept the Debora Sroka Privacy
-								Policy.</a>
+								Policy.
 						</span>
 					</div>
 					<div class="checkbox">
-						<input type="checkbox" name="checkbox"><span>I want
+						<input type="checkbox" name="checkbox" value="receive"><span>I want
 							to receive personalized offers by your site</span>
 					</div>
 				</div>
 			</fieldset>
-			<button type="submit" href="/">Submit</button>
+			<button type="submit">Submit</button>
 		</form>
 	</div>
 </body>

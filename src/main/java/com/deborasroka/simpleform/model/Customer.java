@@ -17,7 +17,7 @@ public class Customer {
 	String bday;
 	String mday;
 	String yday;
-	boolean privacyagr;
+	boolean privacyAgr;
 	boolean offers;
 	
 	
@@ -27,7 +27,7 @@ public class Customer {
 		return "Customer [ID=" + ID + ", firstName=" + firstName + ", LastName=" + LastName + ", email=" + email
 				+ ", password=" + password + ", phone=" + phone + ", address=" + address + ", city=" + city
 				+ ", country=" + country + ", website=" + website + ", gender=" + gender + ", bday=" + bday + ", mday="
-				+ mday + ", yday=" + yday + ", privacyagr=" + privacyagr + ", offers=" + offers + "]";
+				+ mday + ", yday=" + yday + ", privacyagr=" + privacyAgr + ", offers=" + offers + "]";
 	}
 	
 	public int getID() {
@@ -115,10 +115,10 @@ public class Customer {
 		this.yday = yday;
 	}
 	public boolean isPrivacyagr() {
-		return privacyagr;
+		return privacyAgr;
 	}
 	public void setPrivacyagr(boolean privacyagr) {
-		this.privacyagr = privacyagr;
+		this.privacyAgr = privacyagr;
 	}
 	public boolean isOffers() {
 		return offers;
