@@ -3,13 +3,13 @@ package com.deborasroka.test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import java.sql.SQLException;
 
 import com.deborasroka.simpleform.model.dao.DatabaseConnection;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		
 		//System.out.println("These are the number of processors available: " + Runtime.getRuntime().availableProcessors());

@@ -7,7 +7,10 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 	
 	private static Connection conn;
-	
+	private DatabaseConnection() {
+		
+	}
+
 	static {
 		
 		try {
@@ -19,10 +22,13 @@ public class DatabaseConnection {
 			System.out.println("oops: "+ e.getMessage());
 			
 		}
+		
 	}
 	
-	public static Connection getconnection() {
-		
+	
+	
+	
+	public static Connection getconnection() throws SQLException {
 		return conn;
 		
 	}

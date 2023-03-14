@@ -38,8 +38,6 @@ public class FormServlet extends HttpServlet {
 		customer.setCity(request.getParameter("city"));
 		customer.setCountry(request.getParameter("country"));
 		customer.setWebsite(request.getParameter("website"));
-		customer.setPassword(request.getParameter("password"));
-		customer.setWebsite(request.getParameter("website"));
 		customer.setGender(request.getParameter("gender"));
 		customer.setBday(request.getParameter("bday"));
 		customer.setMday(request.getParameter("bmonth"));
@@ -63,6 +61,11 @@ public class FormServlet extends HttpServlet {
 		CustomerDAO customerDAO = new CustomerDAO();
 		try {
 			customerDAO.insert(customer);
+			System.out.println(customerDAO.searchByEmail("danny.sroka@gmail.com")); 
+			Customer customerTest = new Customer (5, "Jose", "Smith", "Myemail@test.com", "1234567", "8017093881",
+					"rua Bonita", "SLC", "Brazil", "bombom.com", "M", "01", "01", "2011", true, false);
+
+			customerDAO.update(customerTest);
 		} catch (SQLException e) {
 		// TODO Auto-generated catch block
 			e.printStackTrace();

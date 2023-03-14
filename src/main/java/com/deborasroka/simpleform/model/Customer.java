@@ -3,22 +3,22 @@ package com.deborasroka.simpleform.model;
 public class Customer {
 	
 	
-	int ID;
-	String firstName;
-	String LastName;
-	String email;
-	String password;
-	String phone;
-	String address;
-	String city;
-	String country;
-	String website;
-	String gender;
-	String bday;
-	String mday;
-	String yday;
-	boolean privacyAgr;
-	boolean offers;
+	private int ID;
+	private String firstName;
+	private String LastName;
+	private String email;
+	private String password;
+	private String phone;
+	private String address;
+	private String city;
+	private String country;
+	private String website;
+	private String gender;
+	private String bday;
+	private String mday;
+	private String yday;
+	private boolean privacyAgr;
+	private boolean offers;
 	
 	
 	
@@ -30,6 +30,32 @@ public class Customer {
 				+ mday + ", yday=" + yday + ", privacyagr=" + privacyAgr + ", offers=" + offers + "]";
 	}
 	
+	public Customer() {
+		
+	}
+
+	public Customer(int iD, String firstName, String lastName, String email, String password, String phone,
+			String address, String city, String country, String website, String gender, String bday, String mday,
+			String yday, boolean privacyAgr, boolean offers) {
+		super();
+		ID = iD;
+		this.firstName = firstName;
+		this.LastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.phone = phone;
+		this.address = address;
+		this.city = city;
+		this.country = country;
+		this.website = website;
+		this.gender = gender;
+		this.bday = bday;
+		this.mday = mday;
+		this.yday = yday;
+		this.privacyAgr = privacyAgr;
+		this.offers = offers;
+	}
+
 	public int getID() {
 		return ID;
 	}
