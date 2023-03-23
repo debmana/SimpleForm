@@ -14,7 +14,7 @@ public class DatabaseConnection {
 	static {
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/simple_form", "root", "password");
 			System.out.println("Connected, success");
 			
@@ -22,11 +22,7 @@ public class DatabaseConnection {
 			System.out.println("oops: "+ e.getMessage());
 			
 		}
-		
 	}
-	
-	
-	
 	
 	public static Connection getconnection() throws SQLException {
 		return conn;

@@ -44,6 +44,7 @@ public class CustomerDAO implements DAO<Customer> {
 			customer.setBday(bday);
 			customer.setMday(bmonth);
 			customer.setYday(byear);
+			customer.setZipcode(rs.getString("zipcode"));
 		}
 		
 		return customer;
@@ -80,6 +81,7 @@ public class CustomerDAO implements DAO<Customer> {
 			customer.setBday(bday);
 			customer.setMday(bmonth);
 			customer.setYday(byear);
+			customer.setZipcode(rs.getString("zipcode"));
 		}
 
 		return customer;
@@ -91,7 +93,7 @@ public class CustomerDAO implements DAO<Customer> {
 		String monthString = t.getMday();
 		String customerDate = (t.getYday()+"-"+monthString+"-"+t.getBday());
 		java.sql.Date qdate = java.sql.Date.valueOf(customerDate);
-		String sql = "INSERT INTO users  (fname,lname,email,password,phone,address,city,country,Website,gender,bdate,privacyAgr,offersAgr) "
+		String sql = "INSERT INTO users  (fname,lname,email,password,phone,address,city,country,Website,gender,bdate,privacyAgr,offersAgr, zipcode) "
 				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement stmt = (conn.prepareStatement(sql));
 		stmt.setString(1, t.getFirstName());
@@ -107,6 +109,7 @@ public class CustomerDAO implements DAO<Customer> {
 		stmt.setDate(11, qdate);
 		stmt.setBoolean(12, t.isPrivacyagr());
 		stmt.setBoolean(13, t.isOffers());
+		stmt.setString(14,t.getZipcode());
 			
 		result = stmt.executeUpdate(); 
 		System.out.println("insert statement result: " +result);
@@ -120,7 +123,7 @@ public class CustomerDAO implements DAO<Customer> {
 		String customerDate = (t.getYday()+"-"+monthString+"-"+t.getBday());
 		java.sql.Date qdate = java.sql.Date.valueOf(customerDate);
 		String sql = "UPDATE users SET fname=? ,lname=? ,email=? ,password=?, phone=?, address=?, city=?, country=?, Website=?, gender=?, bdate=?, "
-				+ "privacyAgr=?, offersAgr=? WHERE id = ?" ;
+				+ "privacyAgr=?, offersAgr=?, zipcode=? WHERE id = ?" ;
 				
 		PreparedStatement stmt = (conn.prepareStatement(sql));
 		stmt.setString(1, t.getFirstName());
@@ -137,6 +140,7 @@ public class CustomerDAO implements DAO<Customer> {
 		stmt.setBoolean(12, t.isPrivacyagr());
 		stmt.setBoolean(13, t.isOffers());
 		stmt.setInt(14,  t.getID());
+		stmt.setString(15, t.getZipcode());
 			
 		result = stmt.executeUpdate(); 
 		System.out.println("update statement result: " +result);
@@ -146,8 +150,14 @@ public class CustomerDAO implements DAO<Customer> {
 
 	@Override
 	public void delete(Customer t) throws SQLException {
-		// TODO Auto-generated method stub
+		Connection conn = DatabaseConnection.getconnection();
+		String sql = "DELETE FROM users WHERE id = ?" ;
+				
+		PreparedStatement stmt = (conn.prepareStatement(sql));
+		stmt.setInt(1, t.getID());
 		
+		result = stmt.executeUpdate();
+
 	}
 
 }
