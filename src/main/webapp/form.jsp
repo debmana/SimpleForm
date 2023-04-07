@@ -1,22 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
- <%@ page isELIgnored="false" %>
+<%@ page isELIgnored="false"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
+
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.deborasroka.simpleform.model.CONST" %>
 
 <!DOCTYPE html>
 <html>
 <head>
+ <script src="https://www.google.com/recaptcha/api.js"></script> 
 </head>
 
-<title>Account registration form</title>
+<title>Registration form</title>
 <link
 	href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600'
 	rel='stylesheet' type='text/css'>
 <link
 	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
 	rel="stylesheet">
+	
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
 <style type="text/css">
 html, body {
 	min-height: 100%;
@@ -62,7 +69,6 @@ fieldset {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-
 }
 
 .account-details>div, .personal-details>div>div {
@@ -79,10 +85,9 @@ label {
 	padding: 0 5px;
 	text-align: right;
 	vertical-align: middle;
-	
 }
 
-.error{
+.error {
 	padding: 0 5px;
 	color: #c90e11;
 	width: 100%;
@@ -90,21 +95,18 @@ label {
 	position: absolute;
 	text-align: center;
 	align-content: center;
-	
 }
 
 input {
 	padding: 5px;
 	vertical-align: middle;
-
 }
 
-input .error{
-
+input .error {
 	padding: 5px;
 	vertical-align: middle;
 	border-color: #f57682;
-	background-color:#f57682;
+	background-color: #f57682;
 }
 
 .checkbox {
@@ -175,12 +177,10 @@ button:hover {
 	background: #82b534;
 }
 
-
 @media ( min-width : 568px) {
 	.account-details>div, .personal-details>div {
 		width: 50%;
 	}
-
 	label {
 		width: 40%;
 	}
@@ -191,33 +191,38 @@ button:hover {
 		width: calc(60% + 16px);
 	}
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #fff inset !important;
+    border: 1px solid black;
+} 
+
+input:-webkit-autofill{
+    -webkit-text-fill-color: #000 !important;
+}
+
 </style>
+
+
+
 </head>
-<body >
+<body>
 
 
 
-	<script>
-			function turnred(key) {
-				console.log(key);
-				//document.getElementById(key).innerHTML="value";
-				document.getElementById(key).style.background = "#eda6ac";
-				document.getElementById(key).style.borderColor = "#f50015";
-				document.getElementById(key).style.borderStyle = "solid";
-    		}
-	</script>
-	
+
 	<div class="main-block">
-		<form action="formSend" method="post" name="form1" >
-			<h1>Create a free account</h1> 
+		<form action="formSend" method="post" name="form1">
+			<h1>Create a free account</h1>
 			<div>
 				<c:forEach var="vmap" items="${errors}">
-						<!--  key: ${vmap.key}<br> -->
-    				<p><font color="red">Error: ${vmap.value}</font></p>
-    				<c:set var="key" value="${vmap.key}" /> 
-    					
+					<p>
+						<font color="red">Error: ${vmap.value}</font>
+					</p>
 				</c:forEach>
-			
 			</div>
 
 
@@ -227,27 +232,28 @@ button:hover {
 				</legend>
 				<div class="account-details">
 					<div>
-					
-						<label>Email*</label><input type="text" name="email" TABINDEX=1 id = "email" required maxlength="25" >
-					</div>
-					<div>
-					
-						<label>Password*</label><input TABINDEX=3 type="password" name="password" id="password" maxlength="18"
-							required>
-							
-							
-					</div>
-					<div>
-						<label>Repeat email*</label><input TABINDEX=2 type="text" name="email_conf" id = "emailConf" onblur ="confirmEmail()"
-							required>
+
+						<label>Email*</label><input type="text" name="email" TABINDEX=1
+							id="email" required maxlength="25">
 					</div>
 					<div>
 
-						<label>Repeat password*</label><input TABINDEX=4 type="password" name="password_conf" id="password_conf" onblur="confirmPass()"
-							required>
+						<label>Password* (@$!%*#?& - [A-z, 0-9])- 6 to 15 characters. At least one upper case, one special and one number</label><input TABINDEX=3 type="password"
+							name="password" id="password" maxlength="15" required><i class="fa-solid fa-eye" id="eye"></i>
 					</div>
+					<div>
+						<label>Repeat email*</label><input TABINDEX=2 type="text"
+							name="email_conf" id="email_conf" required>
+					</div>
+					<div>
 
+						<label>Repeat password*</label><input TABINDEX=4 type="password"
+							name="password_conf" id="password_conf" maxlength="15"
+							required><i class="fa-solid fa-eye" id="eye2"></i>
+					</div>
+					
 				</div>
+				
 			</fieldset>
 			<fieldset>
 				<legend>
@@ -256,27 +262,33 @@ button:hover {
 				<div class="personal-details">
 					<div>
 						<div>
-							<label>First name*</label><input type="text" name="name" id="firstname" required>
-						</div>
-												<div>
-						<label>Last name*</label><input type="text" name="lastName"  id="lastname" required>
+							<label>First name*</label><input type="text" name="name"
+								id="firstname" required>
 						</div>
 						<div>
-							<label>Phone*</label><input type="text" name="phone" maxlength="13" id="phone" required>
+							<label>Last name*</label><input type="text" name="lastName"
+								id="lastname" required>
 						</div>
 						<div>
-							<label>Address</label><input type="text" name="address" id="address">
+							<label>Phone*</label><input type="text" name="phone"
+								maxlength="13" id="phone" required>
 						</div>
 						<div>
-							<label>ZipCode</label><input type="text" name="zipCode" id = zipcode>
+							<label>Address</label><input type="text" name="address"
+								id="address">
 						</div>
 						<div>
-							<label>City</label><input type="text" name="city" required>
+							<label>ZipCode</label><input type="text" name="zipCode"
+								id="zipcode">
 						</div>
 						<div>
-							<label>Country*</label> <select name="country">
+							<label>City</label><input type="text" name="city" id="city"
+								required>
+						</div>
+						<div>
+							<label>Country*</label> <select name="country" id="country">
 								<option value="USA">USA</option>
-								<option value="Armenia">Armenia</option>
+								<option value="Armenia" >Armenia</option>
 								<option value="Brazil">Brazil</option>
 								<option value="Russia">Russia</option>
 								<option value="Germany">Germany</option>
@@ -285,58 +297,58 @@ button:hover {
 							</select>
 						</div>
 						<div>
-							<label>Website</label><input type="text" name="website">
+							<label>Website</label><input type="text" name="website"
+								id="website">
 						</div>
 					</div>
 					<div>
 						<div>
 							<label>Gender*</label>
 							<div class="gender">
-								<input type="radio" value="M" id="male" name="gender"
-									required /> <label for="male" class="radio">Male</label> 
-								<input type="radio" value="F" id="female" name="gender" required />
-								<label for="female" class="radio">Female</label>
+								<input type="radio" value="M" id="male" name="gender" required />
+								<label for="male" class="radio">Male</label> 
+								<input type="radio" value="F" id="female" name="gender" required /> <label
+									for="female" class="radio">Female</label>
 							</div>
 						</div>
 						<div class="birthdate">
-							<label>Day*</label>
+							<label> Birthday*</label>
 							<div class="bdate-block">
-								<select class="day" required name="bday">
-									<option value="01">01</option>
-									<option value="02">02</option>
-									<option value="03">03</option>
-									<option value="04">04</option>
-									<option value="05">05</option>
-									<option value="06">06</option>
-									<option value="07">07</option>
-									<option value="08">08</option>
-									<option value="09">09</option>
-									<option value="10">10</option>
-									<option value="11">11</option>
-									<option value="12">12</option>
-									<option value="13">13</option>
-									<option value="14">14</option>
-									<option value="15">15</option>
-									<option value="16">16</option>
-									<option value="17">17</option>
-									<option value="18">18</option>
-									<option value="19">19</option>
-									<option value="20">20</option>
-									<option value="21">21</option>
-									<option value="22">22</option>
-									<option value="23">23</option>
-									<option value="24">24</option>
-									<option value="25">25</option>
-									<option value="26">26</option>
-									<option value="27">27</option>
-									<option value="28">28</option>
-									<option value="29">29</option>
-									<option value="30">30</option>
-									<option value="31">31</option>
-								</select> 
-								
-								<select class="month" required value="nothing" name="bmonth">
-									
+								<select class="day" required name="bday" id="bdayselector">
+									<option value="01" id="01">01</option>
+									<option value="02" id="02">02</option>
+									<option value="03" id="03">03</option>
+									<option value="04" id="04">04</option>
+									<option value="05" id="05">05</option>
+									<option value="06" id="06">06</option>
+									<option value="07" id="07">07</option>
+									<option value="08" id="08">08</option>
+									<option value="09" id="09">09</option>
+									<option value="10" id="10">10</option>
+									<option value="11" id="11">11</option>
+									<option value="12" id="12">12</option>
+									<option value="13" id="13">13</option>
+									<option value="14" id="14">14</option>
+									<option value="15" id="15">15</option>
+									<option value="16" id="16">16</option>
+									<option value="17" id="17">17</option>
+									<option value="18" id="18">18</option>
+									<option value="19" id="19">19</option>
+									<option value="20" id="20">20</option>
+									<option value="21" id="21">21</option>
+									<option value="22" id="22">22</option>
+									<option value="23" id="23">23</option>
+									<option value="24" id="24">24</option>
+									<option value="25" id="25">25</option>
+									<option value="26" id="26">26</option>
+									<option value="27" id="27">27</option>
+									<option value="28" id="28">28</option>
+									<option value="29" id="29">29</option>
+									<option value="30" id="30">30</option>
+									<option value="31" id="31">31</option>
+								</select> <select class="month" required value="nothing" name="bmonth"
+									id="monthselector">
+
 									<option value="1">January</option>
 									<option value="2">February</option>
 									<option value="3">March</option>
@@ -349,11 +361,11 @@ button:hover {
 									<option value="10">October</option>
 									<option value="11">November</option>
 									<option value="12">December</option>
-								</select> 
-								<select class="month" required value="nothing" name="bdayYear">
-									
+								</select> <select class="month" required value="nothing" name="bdayYear"
+									id="yearselector">
+
 									<option value="1940">1940</option>
-    								<option value="1941">1941</option>
+									<option value="1941">1941</option>
 									<option value="1942">1942</option>
 									<option value="1943">1943</option>
 									<option value="1944">1944</option>
@@ -436,7 +448,7 @@ button:hover {
 									<option value="2021">2021</option>
 									<option value="2022">2022</option>
 									<option value="2023">2023</option>
-								</select> 
+								</select>
 							</div>
 						</div>
 
@@ -449,35 +461,130 @@ button:hover {
 				</legend>
 				<div class="terms-mailing">
 					<div class="checkbox">
-						<input type="checkbox" name="checkbox" value="accept"><span>I
-							accept the Privacy
-								Policy.
+						<input type="checkbox" name="checkbox" value="accept"
+							id="checkpriv"><span>I accept the Privacy Policy.
 						</span>
 					</div>
 					<div class="checkbox">
-						<input type="checkbox" name="checkbox" value="receive"><span>I want
-							to receive personalized offers by your site</span>
+						<input type="checkbox" name="checkbox" id="check" value="receive"><span>I
+							want to receive personalized offers by your site</span>
 					</div>
 				</div>
 			</fieldset>
-			<button type="submit"> Submit</button>
-		
+		<label style="color: red" id="invalidCaptcha"></label>
+			<div class="g-recaptcha"
+				data-sitekey=<c:out value="${CONST.CAPKEY}"/>></div> 
+			<button disabled type="submit" id="submit"
+				style="background: #7d8c65">Submit</button> 
+
 		</form>
 	</div>
+	<c:set var="name" value="${name}" />
+	<c:set var="lastName" value="${lastname}" />
+	<c:set var="phone" value="${phone}" />
+	<c:set var="address" value="${address}" />
+	<c:set var="zipcode" value="${zipcode}" />
+	<c:set var="city" value="${city}" />
+	<c:set var="country" value="${country}" />
+	<c:set var="website" value="${website}" />
+	<c:set var="bday" value="${bday}" />
+	<c:set var="year" value="${year}" />
+	<c:set var="month" value="${month}" />
+	<c:set var="email" value="${email}" />
+	
+	<script>
+		document.getElementById("email").value = '<c:out value="${email}"/>'
+    	document.getElementById("firstname").value = '<c:out value="${name}"/>'
+    	document.getElementById("lastname").value = '<c:out value="${lastname}"/>'
+    	document.getElementById("phone").value = '<c:out value="${phone}"/>'
+    	document.getElementById("address").value = '<c:out value="${address}"/>'
+    	document.getElementById("zipcode").value = '<c:out value="${zipcode}"/>'
+    	document.getElementById("city").value = '<c:out value="${city}"/>'
+    	document.getElementById("country").value = '<c:out value="${country}"/>'
+    	document.getElementById("website").value = '<c:out value="${website}"/>'
+    	document.getElementById("bdayselector").value = '<c:out value="${bday}"/>'
+    	document.getElementById("monthselector").value = '<c:out value="${month}"/>'
+    	document.getElementById("yearselector").value = '<c:out value="${year}"/>'
+    						
+    </script>
+
+	<c:set var="gender" value="${gender}" />
+	<c:if test="${gender ==  'F'}">
+		<script> document.getElementById("female").checked = true </script>
+	</c:if>
+
+	<c:if test="${gender ==  'M'}">
+		<script> document.getElementById("male").checked = true </script>
+	</c:if>
+
+
+	 <c:if test="${not captcha}">
+		<script> document.getElementById("invalidCaptcha").innerHTML="Captcha is invalid"; </script>
+	</c:if>
+
+	<c:if test="${empty captcha}">
+		<script> document.getElementById("invalidCaptcha").innerHTML=""; </script>
+	</c:if> 
+
+
+	<c:forEach var="vmap" items="${errors}">
+		<c:set var="key" value="${vmap.key}" />
+		<script>
+    		document.getElementById('<c:out value="${key}"/>').style.background = "#eda6ac";
+			document.getElementById('<c:out value="${key}"/>').style.borderColor = "#f50015";
+			document.getElementById('<c:out value="${key}"/>').style.borderStyle = "solid"; 
+			document.getElementById('<c:out value="${key}"/>').style.borderWidth = "1px 1px 1px 1px";
+		</script>
+		<c:if test = "${vmap.key=='emailExist'}">
+			<script>
+				document.getElementById('email').style.background = "#eda6ac";
+				document.getElementById('email').style.borderColor = "#f50015";
+				document.getElementById('email').style.borderStyle = "solid"; 
+				document.getElementById('email').style.borderWidth = "1px 1px 1px 1px";
+			</script>
+		</c:if>
+	</c:forEach>
+	<script type="text/javascript">
+
+  
+  	var checkboxAGR = document.getElementById("checkpriv");
+  
+  	checkboxAGR.addEventListener("change", function(){  
+  
+  		if (checkboxAGR.checked) {
+      		document.getElementById('submit').disabled = false;
+      		document.getElementById('submit').style.background = "#8EBF42";
+    		} else {
+      			document.getElementById('submit').disabled = true;
+      			document.getElementById('submit').style.background = "#7d8c65";
+    		}
+  		});
+
+	</script>
+	
+	<script>
+		const passwordInput2 = document.querySelector("#password")
+		const eye2 = document.querySelector("#eye")
+		eye2.addEventListener("click", function(){
+		this.classList.toggle("fa-eye-slash")
+		const type2 = passwordInput2.getAttribute("type") === "password" ? "text" : "password"
+		passwordInput2.setAttribute("type", type2)
+	})
+
+	
+		const passwordInput = document.querySelector("#password_conf")
+		const eye = document.querySelector("#eye2")
+		eye.addEventListener("click", function(){
+  		this.classList.toggle("fa-eye-slash")
+  		const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"
+  		passwordInput.setAttribute("type", type)
+		})
 	
 
-<!--   <script>window.onload = turnred('<c:out value="${key}"/>')</script>	-->
-						<c:forEach var="vmap" items="${errors}">
-    					<c:set var="key" value="${vmap.key}" /> 
-    						<script>
-    							document.getElementById('<c:out value="${key}"/>').style.background = "#eda6ac";
-								document.getElementById('<c:out value="${key}"/>').style.borderColor = "#f50015";
-								document.getElementById('<c:out value="${key}"/>').style.borderStyle = "solid"; 
-							</script>
-    					</c:forEach>
-    					
-    					
-<script src="fieldValidation.js"></script>    					
+	
+	</script>
+
+
 </body>
 </html>
 

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.deborasroka.simpleform.model.CONST;
+
 public class DatabaseConnection {
 	
 	private static Connection conn;
@@ -11,20 +13,17 @@ public class DatabaseConnection {
 		
 	}
 
-	static {
-		
+	
+	public static Connection getconnection() throws SQLException {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/simple_form", "root", "password");
+			conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/simple_form", CONST.DB_USER, CONST.DB_PASS);
 			System.out.println("Connected, success");
 			
 		}catch(ClassNotFoundException | SQLException e) {
 			System.out.println("oops: "+ e.getMessage());
 			
 		}
-	}
-	
-	public static Connection getconnection() throws SQLException {
 		return conn;
 		
 	}

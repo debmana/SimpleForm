@@ -1,8 +1,11 @@
 package com.deborasroka.simpleform.model;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.deborasroka.simpleform.model.dao.CustomerDAO;
 
 
 public class Customer {
@@ -63,97 +66,164 @@ public class Customer {
 
 
 
-	public HashMap<String, String> validateInput(Customer customer){
+	public HashMap<String, String> validateInput(Customer customer) throws SQLException{
 		HashMap<String, String> map = new HashMap<>();
+		Matcher matcher;
+		CustomerDAO customerDAO = new CustomerDAO();
 
 		//Pattern pattern = Pattern.compile("^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-]*$");
 
 		Pattern emailPattern = Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
-		Matcher matcher = emailPattern.matcher(customer.getEmail());
-		if (!matcher.matches()) {
-			map.put("email", "The email entered is invalid, please try characters: A-B, 0-9, . , -, _");
-		} 
+		
+		if (customer.getEmail() == null || customer.getEmail().isEmpty() ) {
 
-		if (customer.getEmail().length()>=31) {
-			String error = map.get("email");
-			if (error!= null) {
-				map.put("email", error+ "The email entered is too long, max lenght 30 characters.");
+			map.put("email", "The email field is empty");
 
-			} else {map.put("email", "The email entered is too long, max lenght 30 characters.");
-			}
-		} 
+		} else {
 
+			matcher = emailPattern.matcher(customer.getEmail());
+			if (!matcher.matches()) {
+				map.put("email", "The email entered is invalid, please try characters: A-B, 0-9, . , -, _");
+			} 
 
+			if (customer.getEmail().length()>=31) {
+				String error = map.get("email");
+				if (error!= null) {
+					map.put("email", error+ "The email entered is too long, max lenght 30 characters.");
+
+				} else {map.put("email", "The email entered is too long, max lenght 30 characters.");
+				}
+			} 
+		}
+
+		
+		if (customerDAO.searchByEmailBool(customer.getEmail())){
+			
+			map.put("emailExist", "This email is already being used, try a different one.");
+		}
 
 
 		Pattern passwordPattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{6,15}$");
-		matcher = passwordPattern.matcher(customer.getPassword());
 
-		if (!matcher.matches()) {
-			map.put("password", "The password is not valid!");
+		if (customer.getPassword() == null || customer.getPassword().isEmpty() ) {
 
-		} 
+			map.put("password", "The password field is empty");
 
-		if (customer.getPassword().length()<6 || customer.getPassword().length()>14) {
-			String error = map.get("phone");
-			if(error==null) {
-				map.put("password", "The password should be from 6 to 15 characters");
+		} else {
 
-			} else {
-				map.put("password", error+ " ,The password should be from 6 to 15 characters");
+			matcher = passwordPattern.matcher(customer.getPassword());
+
+			if (!matcher.matches()) {
+				map.put("password", "The password is not valid!");
+
+			} 
+
+			if (customer.getPassword().length()<6 || customer.getPassword().length()>15) {
+				String error = map.get("phone");
+				if(error==null) {
+					map.put("password", "The password should be 6 to 15 characters");
+
+				} else {
+					map.put("password", error+ " ,The password should be 6 to 15 characters");
+				}
 			}
-
 		}
+
 
 		Pattern zipCodePattern = Pattern.compile("^[0-9]{5}(?:-[0-9]{4})?$");
-		matcher = zipCodePattern.matcher(customer.getZipcode());
-		if (!matcher.matches()) {
 
-			map.put("zipcode", "The zipCode is invalid.");
+
+		if (customer.getZipcode() == null || customer.getZipcode().isEmpty() ) {
+
+			map.put("zipcode", "Zipcode is empty");
+
+		} else {
+			matcher = zipCodePattern.matcher(customer.getZipcode());
+			if (!matcher.matches()) {
+
+				map.put("zipcode", "The zipCode is invalid.");
+			}
 		}
 
-		Pattern passPattern = Pattern.compile("^[0-9a-zA-Z\\Q!?@#$%^&*()_-+=\"'?<>,.\\E]{5,15}");
-		matcher = passPattern.matcher(customer.getPassword());
-		if (!matcher.matches()) {
-			map.put("password", "The password is invalid please use A-B 0-9 and !?@#$%^&*()_-+=\"'?<>,. characters.");
-		}
 
 		//accept anything in the ASCII table
 
 		Pattern phonePattern = Pattern.compile("^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})*$");
-		matcher = phonePattern.matcher(customer.getPhone());
 
-		if (!matcher.matches()) {
-			map.put("phone", "The phone number is not valid.");
+		if (customer.getPhone() == null || customer.getPhone().isEmpty() ) {
 
-		} 
+			map.put("phone", "The phone field is empty.");
 
-		if (customer.getPhone().length()>13) {
-			String error = map.get("phone");
-			if(error==null) {
-				map.put("phone", "The phone number is too long.");
+		} else {
 
-			} else {
-				map.put("phone", error+ " ,The phone number is too long.");
+			matcher = phonePattern.matcher(customer.getPhone());
+
+			if (!matcher.matches()) {
+				map.put("phone", "The phone number is not valid.");
+
+			} 
+
+			if (customer.getPhone().length()>13) {
+				String error = map.get("phone");
+				if(error==null) {
+					map.put("phone", "The phone number is too long.");
+
+				} else {
+					map.put("phone", error+ " ,The phone number is too long.");
+				}
 			}
 
 		}
 
 		Pattern addressPattern = Pattern.compile("[\\x00-\\x7F]{3,45}");
-		matcher = addressPattern.matcher(customer.getAddress());
-		if (!matcher.matches()) {
-			map.put("address", "The address is invalid, limit 45 characters.");
+
+		if (customer.getAddress() == null || customer.getAddress().isEmpty() ) {
+
+			map.put("address", "The address field is empty.");
+
+		} else {
+			matcher = addressPattern.matcher(customer.getAddress());
+			if (!matcher.matches()) {
+				map.put("address", "The address is invalid, limit 45 characters.");
+			}
 		}
 
 
 		Pattern namePattern = Pattern.compile("[\\x00-\\x7F]{3,15}");
-		matcher = namePattern.matcher(customer.getFirstName());
-		if (!matcher.matches()) {
-			map.put("firstName", "The first name is too long.");
+
+		if (customer.getFirstName() == null || customer.getFirstName().isEmpty() ) {
+
+			map.put("firstname", "The name field is empty.");
+
+		} else {
+			matcher = namePattern.matcher(customer.getFirstName());
+			if (!matcher.matches()) {
+				map.put("firstname", "The first name is invalid.");
+			}
 		}
-		matcher = namePattern.matcher(customer.getLastName());
-		if (!matcher.matches()) {
-			map.put("lastName", "The last name is too long.");
+
+
+		if (customer.getLastName() == null || customer.getLastName().isEmpty() ) {
+
+			map.put("lastname", "The last name field is empty.");
+
+		} else {
+			matcher = namePattern.matcher(customer.getLastName());
+			if (!matcher.matches()) {
+				map.put("lastname", "The last name is invalid.");
+			}
+		}
+		
+		
+		if (customer.getCity() == null || customer.getCity().isEmpty() ) {
+
+			map.put("city", "The city field is empty.");
+
+		} else {
+			matcher = namePattern.matcher(customer.getCity());
+			if (!matcher.matches()) {
+				map.put("city", "The city field is invalid.");
+			}
 		}
 
 		return map;

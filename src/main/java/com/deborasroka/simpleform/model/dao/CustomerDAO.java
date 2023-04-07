@@ -1,14 +1,10 @@
 package com.deborasroka.simpleform.model.dao;
-//import com.deborasroka.simpleform.model.dao.DatabaseConnection;
 import com.deborasroka.simpleform.model.*;
 
 import java.sql.Connection;
-//import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-//import java.time.LocalDate;
-//import java.text.*;
 
 public class CustomerDAO implements DAO<Customer> {
 	private int result;
@@ -16,11 +12,20 @@ public class CustomerDAO implements DAO<Customer> {
 	@Override
 	public Customer searchByID(int id) throws SQLException {
 		Customer customer = new Customer();
-		Connection conn = DatabaseConnection.getconnection();
-		String sql = "Select * from users where id = ?";
-		PreparedStatement stmt = (conn.prepareStatement(sql));
-		stmt.setInt(1, id);
-		ResultSet rs = stmt.executeQuery();
+		ResultSet rs = null;
+		
+		
+		try {
+				Connection conn = DatabaseConnection.getconnection();
+				String sql = "Select * from users where id = ?";
+				PreparedStatement stmt = (conn.prepareStatement(sql));
+				stmt.setInt(1, id);
+				rs = stmt.executeQuery();
+		} catch (SQLException e) {
+			
+				System.out.println(e); 
+				return null;
+		}
 		
 		if (rs.next()) {
 			
@@ -50,14 +55,52 @@ public class CustomerDAO implements DAO<Customer> {
 		return customer;
 	}
 
+	
+	public boolean searchByEmailBool(String email) throws SQLException {
+		ResultSet rs = null;
+		
+		try {
+			Connection conn = DatabaseConnection.getconnection();
+			String sql = "Select * from users where email = ?";
+			PreparedStatement stmt = (conn.prepareStatement(sql));
+			stmt.setString(1, email);
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				System.out.println("This is the result true");
+				return true;
+			} else {
+				System.out.println("This is the result false");
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			
+			System.out.println(e); 
+			return false;			
+			
+		}
+
+	}
+	
+	
 	@Override
 	public Customer searchByEmail(String email) throws SQLException {
 		Customer customer = new Customer();
-		Connection conn = DatabaseConnection.getconnection();
-		String sql = "Select * from users where email = ?";
-		PreparedStatement stmt = (conn.prepareStatement(sql));
-		stmt.setString(1, email);
-		ResultSet rs = stmt.executeQuery();
+		ResultSet rs = null;
+		
+		try {
+			Connection conn = DatabaseConnection.getconnection();
+			String sql = "Select * from users where email = ?";
+			PreparedStatement stmt = (conn.prepareStatement(sql));
+			stmt.setString(1, email);
+			rs = stmt.executeQuery();
+		} catch (SQLException e) {
+			
+			System.out.println(e); 
+			return null;			
+			
+		}
 		
 		if (rs.next()) {
 			
@@ -70,13 +113,13 @@ public class CustomerDAO implements DAO<Customer> {
 			customer.setFirstName(rs.getString("fname"));
 			customer.setEmail(rs.getString("email"));
 			customer.setPassword(rs.getString("password"));
+		
 			customer.setLastName(rs.getString("lname"));
 			customer.setPhone(rs.getString("phone"));
 			customer.setAddress(rs.getString("address"));
 			customer.setCity(rs.getString("city"));
 			customer.setCountry(rs.getString("Country"));
 			customer.setWebsite(rs.getString("website"));
-			customer.setPassword(rs.getString("password"));
 			customer.setGender(rs.getString("gender"));
 			customer.setBday(bday);
 			customer.setMday(bmonth);
@@ -89,17 +132,19 @@ public class CustomerDAO implements DAO<Customer> {
 
 	@Override
 	public void insert(Customer t) throws SQLException {
+		
+		String password = Password.encrypt(t.getPassword());
 		Connection conn = DatabaseConnection.getconnection();
 		String monthString = t.getMday();
 		String customerDate = (t.getYday()+"-"+monthString+"-"+t.getBday());
 		java.sql.Date qdate = java.sql.Date.valueOf(customerDate);
 		String sql = "INSERT INTO users  (fname,lname,email,password,phone,address,city,country,Website,gender,bdate,privacyAgr,offersAgr, zipcode) "
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement stmt = (conn.prepareStatement(sql));
 		stmt.setString(1, t.getFirstName());
 		stmt.setString(2, t.getLastName());
 		stmt.setString(3, t.getEmail());
-		stmt.setString(4, t.getPassword());
+		stmt.setString(4, password);
 		stmt.setString(5, t.getPhone());
 		stmt.setString(6, t.getAddress());
 		stmt.setString(7, t.getCity());
@@ -110,10 +155,14 @@ public class CustomerDAO implements DAO<Customer> {
 		stmt.setBoolean(12, t.isPrivacyagr());
 		stmt.setBoolean(13, t.isOffers());
 		stmt.setString(14,t.getZipcode());
+		
+		try {
+			result = stmt.executeUpdate(); 
+			System.out.println("insert statement result: " +result);
+		} catch(SQLException e) {
+			System.out.println("Error during insert operation in CustomerDAO: "+e);
 			
-		result = stmt.executeUpdate(); 
-		System.out.println("insert statement result: " +result);
-
+		}
 	}
 
 	@Override
@@ -142,10 +191,12 @@ public class CustomerDAO implements DAO<Customer> {
 		stmt.setInt(14,  t.getID());
 		stmt.setString(15, t.getZipcode());
 			
-		result = stmt.executeUpdate(); 
+		try {
+			result = stmt.executeUpdate(); 
+		} catch (SQLException e) {
+			System.out.println("Exception during update statement "+e);
+		}
 		System.out.println("update statement result: " +result);
-
-		
 	}
 
 	@Override
@@ -156,7 +207,11 @@ public class CustomerDAO implements DAO<Customer> {
 		PreparedStatement stmt = (conn.prepareStatement(sql));
 		stmt.setInt(1, t.getID());
 		
-		result = stmt.executeUpdate();
+		try {
+			result = stmt.executeUpdate();
+		} catch(SQLException e) {
+			System.out.println("Exception during delete statement "+e);
+		}
 
 	}
 
