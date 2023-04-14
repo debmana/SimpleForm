@@ -1,3 +1,7 @@
+<%@ page isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
 
 <html lang="en" >
 <head>
@@ -8,12 +12,17 @@
 
 </head>
 <body>
-<!-- partial:index.partial.html -->
+
 <div class="login-form">
   <form action="loginServ" method="post">
-    <h1>Login</h1>
+    <h1>Login</h1> 
     <div class="content">
       <div class="input-field">
+      
+      <font color="red">
+      <c:out value="${failedLogin}"/>
+      </font>
+      
         <input type="email" id="email" name="email" placeholder="Email">
       </div>
       <div class="input-field">
@@ -23,7 +32,7 @@
     </div>
     <div class="action">
       <button id="register" type="button" onclick="location.href='form.jsp' ">Register</button>
-      <button id ="login" >Sign in</button>
+      <button id ="login">Sign in</button>
     </div>
   </form>
 </div>

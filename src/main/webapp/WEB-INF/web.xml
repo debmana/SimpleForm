@@ -30,4 +30,25 @@ version="4.0">
   	<url-pattern>/loginServ</url-pattern>
   </servlet-mapping>
   
+     <servlet>
+  	<servlet-name>LogOutServlet</servlet-name>
+  	<servlet-class>com.deborasroka.simpleform.control.LogOutServlet</servlet-class>
+  </servlet>
+    
+  <servlet-mapping>
+  	<servlet-name>LogOutServlet</servlet-name>
+  	<url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+    
+  <servlet>
+  	<servlet-name>AdminLandingServlet</servlet-name>
+  	<servlet-class>com.deborasroka.simpleform.control.AdminLandingServlet</servlet-class>
+  </servlet>
+    
+  <servlet-mapping>
+  	<servlet-name>AdminLandingServlet</servlet-name>
+  	<url-pattern>/usersearch</url-pattern>
+  </servlet-mapping>
+  
+  
 </web-app>

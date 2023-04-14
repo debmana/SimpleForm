@@ -50,6 +50,9 @@ public class CustomerDAO implements DAO<Customer> {
 			customer.setMday(bmonth);
 			customer.setYday(byear);
 			customer.setZipcode(rs.getString("zipcode"));
+			customer.setPrivacyagr(rs.getBoolean("privacyAgr"));
+			customer.setOffers(rs.getBoolean("offersAgr"));
+			
 		}
 		
 		return customer;

@@ -24,11 +24,4 @@ public final class CONST {
 		return constants.getProperty(key);
 	}
 	
-
-	
-	
-	
-	
-	
-
 }

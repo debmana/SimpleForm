@@ -3,36 +3,39 @@ package com.deborasroka.simpleform.model.dao;
 import java.sql.SQLException;
 
 import com.deborasroka.simpleform.model.Customer;
+import com.deborasroka.simpleform.model.User;
+
+
 
 public class AuthDAO {
 	
 	
 	
-	public Customer Authenticate(String email, String password) throws SQLException {
-		
-		
+	public User Authenticate(String email, String password) throws SQLException {
 		CustomerDAO customerDAO = new CustomerDAO();
 		Customer customer = new Customer();
+		User user = new User();
+		UserDAO userDAO = new UserDAO();
 		
 		try {
-			customer = customerDAO.searchByEmail(email);
+			user = userDAO.searchByEmail(email);
 		
 		} catch(SQLException e) {
 
 			return null;
 		}
-		
-		
-		if (customer == null || customer.getID() == 0) {
+		if (user == null || user.getID() == 0) {
 			return null;
 		} else
 
-			if (customer.getPassword().equals(password)){
+			if (user.getPassword().equals(password)){
 				
-				return customer;
+				return user;
 			
 			} else 
 				return null;
 	}
 
 }
+
+// enter as a customer get out as an authenticated user, return USER instead of customer.

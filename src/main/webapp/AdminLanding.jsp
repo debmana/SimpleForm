@@ -1,17 +1,63 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page isELIgnored="false"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.deborasroka.simpleform.model.CONST" %>
 
 <!DOCTYPE html>
 <html>
 <head>
- <script src="https://www.google.com/recaptcha/api.js"></script> 
-</head>
+<% 
+boolean isAuthenticated= false;
+boolean isAdmin = false;
 
-<title>Registration form</title>
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setHeader("Expires", "0");
+
+
+System.out.println("THis is what is in the session yralalalalalalalala" + session.getAttribute("isAuthenticated"));
+
+try{
+	
+	if (session.getAttribute("isAuthenticated")!=null){
+		isAuthenticated = (boolean) session.getAttribute("isAuthenticated");
+	} else  isAuthenticated=false;
+	
+} catch(Exception e){
+	
+		isAuthenticated=false;
+		System.out.println("Null pointer" +e);
+	
+		request.getRequestDispatcher("/AuthenticationError.jsp").forward(request, response);
+}
+
+try{
+	
+	if (session.getAttribute("isAdmin")!=null){
+		isAdmin = (boolean) session.getAttribute("isAdmin");
+	} else  {isAdmin=false;}
+	
+	} catch(Exception e){
+	
+		isAdmin=false;
+		System.out.println("Null pointer" +e);
+	
+		request.getRequestDispatcher("/AuthenticationError.jsp").forward(request, response);
+}
+
+	if(isAuthenticated){
+		if (isAdmin){
+			
+		} else {
+			request.setAttribute("Unauthorizes", "You need to have adminn priviledges to access this page");
+			request.getRequestDispatcher("/AuthenticationError.jsp").forward(request, response);
+		}
+	} else {request.getRequestDispatcher("/AuthenticationError.jsp").forward(request, response);}
+%> 
+
+
+<meta charset="UTF-8">
+<title>Administrator Search Page:</title>
+
 <link
 	href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600'
 	rel='stylesheet' type='text/css'>
@@ -46,7 +92,7 @@ h3 {
 }
 
 .main-block {
-	display: flex;
+	display: block;
 	justify-content: center;
 	align-items: center;
 	background: #fff;
@@ -60,6 +106,13 @@ form {
 fieldset {
 	border: none;
 	border-top: 1px solid #8ebf42;
+}
+
+.fakeForm{
+
+	width: 100%;
+	padding: 20px;
+
 }
 
 .account-details, .personal-details {
@@ -206,19 +259,23 @@ input:-webkit-autofill{
 
 
 </head>
+
 <body>
 	<div class="main-block">
-		<form action="formSend" method="post" name="form1">
-			<h1>Create a free account</h1>
-			<div>
-				<c:forEach var="vmap" items="${errors}">
-					<p>
-						<font color="red">Error: ${vmap.value}</font>
-					</p>
-				</c:forEach>
-			</div>
+			<form action="usersearch" method="get" name="form1">
+			<fieldset>
 
+			<h1>Search User (enter the user ID or EMAIL):</h1>
 
+				<input style="width:28em;" type="text" name="search" TABINDEX=0 id="search" required maxlength="30"> 
+				
+				<button type="submit" style="width:14em;" id ="searchButton" value="search">Search!</button>
+
+			</fieldset>
+
+		</form>
+		
+ 		<div>
 			<fieldset>
 				<legend>
 					<h3>Account Details</h3>
@@ -464,13 +521,13 @@ input:-webkit-autofill{
 					</div>
 				</div>
 			</fieldset>
-		<label style="color: red" id="invalidCaptcha"></label>
-			<div class="g-recaptcha"
-				data-sitekey=<c:out value="${CONST.CAPKEY}"/>></div> 
-			<button disabled type="submit" id="submit"
-				style="background: #7d8c65">Submit</button> 
 
-		</form>
+			<button disabled type="button" id="save"
+				style="background: #7d8c65">Save Changes</button> 
+			<button disabled type="button" id="discard"
+				style="background: #7d8c65">Discard Changes</button> 
+
+		</div>
 	</div>
 	<c:set var="name" value="${name}" />
 	<c:set var="lastName" value="${lastname}" />
@@ -486,6 +543,8 @@ input:-webkit-autofill{
 	<c:set var="email" value="${email}" />
 	
 	<script>
+	
+	<c:if test="${not empty searchResult}">
 		document.getElementById("email").value = '<c:out value="${email}"/>'
     	document.getElementById("firstname").value = '<c:out value="${name}"/>'
     	document.getElementById("lastname").value = '<c:out value="${lastname}"/>'
@@ -498,26 +557,37 @@ input:-webkit-autofill{
     	document.getElementById("bdayselector").value = '<c:out value="${bday}"/>'
     	document.getElementById("monthselector").value = '<c:out value="${month}"/>'
     	document.getElementById("yearselector").value = '<c:out value="${year}"/>'
+    	
+   <c:if/>
+    	
+   <c:if test="${empty searchResult}">
+		document.getElementById("email").value = "";
+    	document.getElementById("firstname").value = "";
+    	document.getElementById("lastname").value = "";
+    	document.getElementById("phone").value = "";
+    	document.getElementById("address").value = "";
+    	document.getElementById("zipcode").value = "";
+    	document.getElementById("city").value = "";
+    	document.getElementById("country").value = "";
+    	document.getElementById("website").value = "";
+    	document.getElementById("bdayselector").value = "";
+    	document.getElementById("monthselector").value = "";
+    	document.getElementById("yearselector").value = "";
+    	
+   <c:if/>
     						
     </script>
 
-	<c:set var="gender" value="${gender}" />
-	<c:if test="${gender ==  'F'}">
-		<script> document.getElementById("female").checked = true </script>
-	</c:if>
+	<script>
+		<c:if test="${gender.pSystem == 'F'}">
+			document.getElementById("female").checked = true;
+		<c:if/>
 
-	<c:if test="${gender ==  'M'}">
-		<script> document.getElementById("male").checked = true </script>
-	</c:if>
+		<c:if test="${gender.pSystem == 'M'}">
+			document.getElementById("male").checked = true;
+		<c:if/>
+	</script>
 
-
-	 <c:if test="${not captcha}">
-		<script> document.getElementById("invalidCaptcha").innerHTML="Captcha is invalid"; </script>
-	</c:if>
-
-	<c:if test="${empty captcha}">
-		<script> document.getElementById("invalidCaptcha").innerHTML=""; </script>
-	</c:if> 
 
 
 	<c:forEach var="vmap" items="${errors}">
@@ -537,46 +607,6 @@ input:-webkit-autofill{
 			</script>
 		</c:if>
 	</c:forEach>
-	<script type="text/javascript">
-
-  
-  	var checkboxAGR = document.getElementById("checkpriv");
-  
-  	checkboxAGR.addEventListener("change", function(){  
-  
-  		if (checkboxAGR.checked) {
-      		document.getElementById('submit').disabled = false;
-      		document.getElementById('submit').style.background = "#8EBF42";
-    		} else {
-      			document.getElementById('submit').disabled = true;
-      			document.getElementById('submit').style.background = "#7d8c65";
-    		}
-  		});
-
-	</script>
-	
-	<script>
-		const passwordInput2 = document.querySelector("#password")
-		const eye2 = document.querySelector("#eye")
-		eye2.addEventListener("click", function(){
-		this.classList.toggle("fa-eye-slash")
-		const type2 = passwordInput2.getAttribute("type") === "password" ? "text" : "password"
-		passwordInput2.setAttribute("type", type2)
-	})
-
-	
-		const passwordInput = document.querySelector("#password_conf")
-		const eye = document.querySelector("#eye2")
-		eye.addEventListener("click", function(){
-  		this.classList.toggle("fa-eye-slash")
-  		const type = passwordInput.getAttribute("type") === "password" ? "text" : "password"
-  		passwordInput.setAttribute("type", type)
-		})
-	
-
-	
-	</script>
-
 
 </body>
 </html>
