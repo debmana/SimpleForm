@@ -15,7 +15,7 @@ public final class CONST {
 	private static String getConst (String key) {
 		
 	Properties constants = new Properties();
-		try (FileReader in = new FileReader("/Users/deborasroka/const.properties")) {
+		try (FileReader in = new FileReader("/usr/const.properties")) {
 		    constants.load(in);
 		} catch(IOException e) {
 			System.out.println("Error retrieving const file: "+e);

@@ -1,10 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-    
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false"%>
 
-<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.deborasroka.simpleform.model.CONST" %>
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <head>
+<link rel="stylesheet" href="styleAdmin.css">
+
 <% 
 boolean isAuthenticated= false;
 boolean isAdmin = false;
@@ -13,21 +20,18 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 response.setHeader("Pragma", "no-cache");
 response.setHeader("Expires", "0");
 
-
-System.out.println("THis is what is in the session yralalalalalalalala" + session.getAttribute("isAuthenticated"));
-
 try{
 	
 	if (session.getAttribute("isAuthenticated")!=null){
 		isAuthenticated = (boolean) session.getAttribute("isAuthenticated");
-	} else  isAuthenticated=false;
+	} else  {isAuthenticated=false;}
 	
 } catch(Exception e){
 	
 		isAuthenticated=false;
 		System.out.println("Null pointer" +e);
 	
-		request.getRequestDispatcher("/AuthenticationError.jsp").forward(request, response);
+		request.getRequestDispatcher("/AuthenticationError.jsp").forward(request,response);
 }
 
 try{
@@ -52,7 +56,11 @@ try{
 			request.getRequestDispatcher("/AuthenticationError.jsp").forward(request, response);
 		}
 	} else {request.getRequestDispatcher("/AuthenticationError.jsp").forward(request, response);}
+
+
 %> 
+
+
 
 
 <meta charset="UTF-8">
@@ -67,194 +75,7 @@ try{
 	
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
-<style type="text/css">
-html, body {
-	min-height: 100%;
-}
 
-body, div, form, input, select, p {
-	padding: 0;
-	margin: 0;
-	outline: none;
-	font-family: Roboto, Arial, sans-serif;
-	font-size: 14px;
-	color: #666;
-}
-
-h1 {
-	margin: 0;
-	font-weight: 400;
-}
-
-h3 {
-	margin: 12px 0;
-	color: #8ebf42;
-}
-
-.main-block {
-	display: block;
-	justify-content: center;
-	align-items: center;
-	background: #fff;
-}
-
-form {
-	width: 100%;
-	padding: 20px;
-}
-
-fieldset {
-	border: none;
-	border-top: 1px solid #8ebf42;
-}
-
-.fakeForm{
-
-	width: 100%;
-	padding: 20px;
-
-}
-
-.account-details, .personal-details {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-}
-
-.account-details>div, .personal-details>div>div {
-	display: flex;
-	align-items: center;
-	margin-bottom: 10px;
-}
-
-.account-details>div, .personal-details>div, input, label {
-	width: 100%;
-}
-
-label {
-	padding: 0 5px;
-	text-align: right;
-	vertical-align: middle;
-}
-
-.error {
-	padding: 0 5px;
-	color: #c90e11;
-	width: 100%;
-	font-size: 20px;
-	position: absolute;
-	text-align: center;
-	align-content: center;
-}
-
-input {
-	padding: 5px;
-	vertical-align: middle;
-}
-
-input .error {
-	padding: 5px;
-	vertical-align: middle;
-	border-color: #f57682;
-	background-color: #f57682;
-}
-
-.checkbox {
-	margin-bottom: 10px;
-}
-
-select, .children, .gender, .bdate-block {
-	width: calc(100% + 26px);
-	padding: 5px 0;
-}
-
-select {
-	background: transparent;
-}
-
-.gender input {
-	width: auto;
-}
-
-.gender label {
-	padding: 0 5px 0 0;
-}
-
-.bdate-block {
-	display: flex;
-	justify-content: space-between;
-}
-
-.birthday select.day {
-	width: 35px;
-}
-
-.birthdate select.month {
-	width: calc(100% - 94px);
-}
-
-.birthday input {
-	width: 38px;
-	vertical-align: unset;
-}
-
-.checkbox input, .children input {
-	width: auto;
-	margin: -2px 10px 0 0;
-}
-
-.checkbox a {
-	color: #8ebf42;
-}
-
-.checkbox a:hover {
-	color: #82b534;
-}
-
-button {
-	width: 100%;
-	padding: 10px 0;
-	margin: 10px auto;
-	border-radius: 5px;
-	border: none;
-	background: #8ebf42;
-	font-size: 14px;
-	font-weight: 600;
-	color: #fff;
-}
-
-button:hover {
-	background: #82b534;
-}
-
-@media ( min-width : 568px) {
-	.account-details>div, .personal-details>div {
-		width: 50%;
-	}
-	label {
-		width: 40%;
-	}
-	input {
-		width: 60%;
-	}
-	select, .children, .gender, .bdate-block {
-		width: calc(60% + 16px);
-	}
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px #fff inset !important;
-    border: 1px solid black;
-} 
-
-input:-webkit-autofill{
-    -webkit-text-fill-color: #000 !important;
-}
-
-</style>
 
 
 
@@ -269,37 +90,41 @@ input:-webkit-autofill{
 
 				<input style="width:28em;" type="text" name="search" TABINDEX=0 id="search" required maxlength="30"> 
 				
-				<button type="submit" style="width:14em;" id ="searchButton" value="search">Search!</button>
-
+				<button type="submit" style="width:14em;" id ="searchButton" value="search">Search!</button><br>
+				<label id="searchLabel"  style="color:red"></label>
 			</fieldset>
 
 		</form>
+
 		
  		<div>
+ 			<form method="post" action="userUpdate">
 			<fieldset>
 				<legend>
-					<h3>Account Details</h3>
+					<h3>Account Details</h3><br>
+					
 				</legend>
 				<div class="account-details">
+					
 					<div>
-
-						<label>Email*</label><input type="text" name="email" TABINDEX=1
-							id="email" required maxlength="25">
+						
+						<label>User ID:</label><input type="text" name="UserIDText" TABINDEX=1
+							id="UserIDText" readonly="readonly" maxlength="25">
 					</div>
 					<div>
 
 						<label>Password* (@$!%*#?& - [A-z, 0-9])- 6 to 15 characters. At least one upper case, one special and one number</label><input TABINDEX=3 type="password"
-							name="password" id="password" maxlength="15" required><i class="fa-solid fa-eye" id="eye"></i>
+							name="password" id="password" maxlength="15"><i class="fa-solid fa-eye" id="eye"></i>
 					</div>
 					<div>
-						<label>Repeat email*</label><input TABINDEX=2 type="text"
-							name="email_conf" id="email_conf" required>
+						<label>Email*</label><input TABINDEX=2 type="text"
+							name="email" id="email" required>
 					</div>
 					<div>
 
 						<label>Repeat password*</label><input TABINDEX=4 type="password"
 							name="password_conf" id="password_conf" maxlength="15"
-							required><i class="fa-solid fa-eye" id="eye2"></i>
+							><i class="fa-solid fa-eye" id="eye2"></i>
 					</div>
 					
 				</div>
@@ -309,8 +134,11 @@ input:-webkit-autofill{
 				<legend>
 					<h3>Personal Details</h3>
 				</legend>
+
 				<div class="personal-details">
 					<div>
+
+								
 						<div>
 							<label>First name*</label><input type="text" name="name"
 								id="firstname" required>
@@ -329,7 +157,7 @@ input:-webkit-autofill{
 						</div>
 						<div>
 							<label>ZipCode</label><input type="text" name="zipCode"
-								id="zipcode">
+								id="zipCode">
 						</div>
 						<div>
 							<label>City</label><input type="text" name="city" id="city"
@@ -352,12 +180,26 @@ input:-webkit-autofill{
 						</div>
 					</div>
 					<div>
+					<div>							
+							<label for="isActive">Active</label>
+							<div class="active">
+
+							<input type="checkbox" id="isActive" name="checkbox" value="isActive">
+							</div>
+					</div>
+							<div>							
+							<label for="isAdmin">Is administrator</label>
+							<div class="active">
+
+							<input type="checkbox" id="isAdmin" name="checkbox" value="isAdmin">
+							</div>
+					</div>
 						<div>
 							<label>Gender*</label>
 							<div class="gender">
-								<input type="radio" value="M" id="male" name="gender" required />
+								<input type="radio" value="M" id="male" name="gender" />
 								<label for="male" class="radio">Male</label> 
-								<input type="radio" value="F" id="female" name="gender" required /> <label
+								<input type="radio" value="F" id="female" name="gender"  /> <label
 									for="female" class="radio">Female</label>
 							</div>
 						</div>
@@ -365,15 +207,15 @@ input:-webkit-autofill{
 							<label> Birthday*</label>
 							<div class="bdate-block">
 								<select class="day" required name="bday" id="bdayselector">
-									<option value="01" id="01">01</option>
-									<option value="02" id="02">02</option>
-									<option value="03" id="03">03</option>
-									<option value="04" id="04">04</option>
-									<option value="05" id="05">05</option>
-									<option value="06" id="06">06</option>
-									<option value="07" id="07">07</option>
-									<option value="08" id="08">08</option>
-									<option value="09" id="09">09</option>
+									<option value="01" id="1">01</option>
+									<option value="02" id="2">02</option>
+									<option value="03" id="3">03</option>
+									<option value="04" id="4">04</option>
+									<option value="05" id="5">05</option>
+									<option value="06" id="6">06</option>
+									<option value="07" id="7">07</option>
+									<option value="08" id="8">08</option>
+									<option value="09" id="9">09</option>
 									<option value="10" id="10">10</option>
 									<option value="11" id="11">11</option>
 									<option value="12" id="12">12</option>
@@ -399,19 +241,22 @@ input:-webkit-autofill{
 								</select> <select class="month" required value="nothing" name="bmonth"
 									id="monthselector">
 
-									<option value="1">January</option>
-									<option value="2">February</option>
-									<option value="3">March</option>
-									<option value="4">April</option>
-									<option value="5">May</option>
-									<option value="6">June</option>
-									<option value="7">July</option>
-									<option value="8">August</option>
-									<option value="9">September</option>
+									<option value="01">January</option>
+									<option value="02">February</option>
+									<option value="03">March</option>
+									<option value="04">April</option>
+									<option value="05">May</option>
+									<option value="06">June</option>
+									<option value="07">July</option>
+									<option value="08">August</option>
+									<option value="09">September</option>
 									<option value="10">October</option>
 									<option value="11">November</option>
 									<option value="12">December</option>
-								</select> <select class="month" required value="nothing" name="bdayYear"
+								</select> 
+								
+								
+								<select class="month" required value="nothing" name="bdayYear"
 									id="yearselector">
 
 									<option value="1940">1940</option>
@@ -499,114 +344,139 @@ input:-webkit-autofill{
 									<option value="2022">2022</option>
 									<option value="2023">2023</option>
 								</select>
+
+
+
 							</div>
+
 						</div>
 
-					</div>
+					</div>													
+
 				</div>
+
 			</fieldset>
 			<fieldset>
-				<legend>
-					<h3>Terms and Mailing</h3>
-				</legend>
-				<div class="terms-mailing">
-					<div class="checkbox">
-						<input type="checkbox" name="checkbox" value="accept"
-							id="checkpriv"><span>I accept the Privacy Policy.
-						</span>
-					</div>
-					<div class="checkbox">
-						<input type="checkbox" name="checkbox" id="check" value="receive"><span>I
-							want to receive personalized offers by your site</span>
-					</div>
-				</div>
+				
+			<button type="submit" id="save">Save Changes</button> 
+			<button type="reset" id="discard">Discard Changes</button> 
 			</fieldset>
-
-			<button disabled type="button" id="save"
-				style="background: #7d8c65">Save Changes</button> 
-			<button disabled type="button" id="discard"
-				style="background: #7d8c65">Discard Changes</button> 
+		</form>
+					<form class="display-form" method="get" action="logout" >
+				
+      			<button id="logout" type="submit" value="logout">Logout</button>
+      		</form>
+				
 
 		</div>
 	</div>
-	<c:set var="name" value="${name}" />
-	<c:set var="lastName" value="${lastname}" />
-	<c:set var="phone" value="${phone}" />
-	<c:set var="address" value="${address}" />
-	<c:set var="zipcode" value="${zipcode}" />
-	<c:set var="city" value="${city}" />
-	<c:set var="country" value="${country}" />
-	<c:set var="website" value="${website}" />
-	<c:set var="bday" value="${bday}" />
-	<c:set var="year" value="${year}" />
-	<c:set var="month" value="${month}" />
-	<c:set var="email" value="${email}" />
 	
-	<script>
+<script>
+	<c:set var="userID" value = "${suserID}" />
+	<c:set var="name" value="${sname}" />
+	<c:set var="lastName" value="${slastname}" />
+	<c:set var="phone" value="${sphone}" />
+	<c:set var="address" value="${saddress}" />
+	<c:set var="zipCode" value="${szipCode}" />
+	<c:set var="city" value="${scity}" />
+	<c:set var="country" value="${scountry}" />
+	<c:set var="website" value="${swebsite}" />
+	<c:set var="bday" value="${sbday}" />
+	<c:set var="year" value="${syear}" />
+	<c:set var="month" value="${smonth}" />
+	<c:set var="email" value="${semail}" />
+	<c:set var="gender" value="${sgender}" />
+	<c:set var="searchErrorb" value="${ErrorSearch}" />
+</script>
+
+<script>
 	
-	<c:if test="${not empty searchResult}">
+	<c:if test="${suserID != 0}">
 		document.getElementById("email").value = '<c:out value="${email}"/>'
     	document.getElementById("firstname").value = '<c:out value="${name}"/>'
     	document.getElementById("lastname").value = '<c:out value="${lastname}"/>'
     	document.getElementById("phone").value = '<c:out value="${phone}"/>'
     	document.getElementById("address").value = '<c:out value="${address}"/>'
-    	document.getElementById("zipcode").value = '<c:out value="${zipcode}"/>'
+    	document.getElementById("zipCode").value = '<c:out value="${zipCode}"/>'
     	document.getElementById("city").value = '<c:out value="${city}"/>'
     	document.getElementById("country").value = '<c:out value="${country}"/>'
     	document.getElementById("website").value = '<c:out value="${website}"/>'
     	document.getElementById("bdayselector").value = '<c:out value="${bday}"/>'
     	document.getElementById("monthselector").value = '<c:out value="${month}"/>'
     	document.getElementById("yearselector").value = '<c:out value="${year}"/>'
+        document.getElementById("UserIDText").value ='<c:out value="${userID}"/>';
+    	document.getElementById("searchLabel").innerHTML = '<c:out value="${searchErrorb}"/>';
+   	
+   </c:if>
+</script>
+   
+   <script>
+		<c:if test="${gender ==  'F'}">
+			 document.getElementById("female").checked = true;
+		</c:if>
+
+		<c:if test="${gender ==  'M'}">
+			document.getElementById("male").checked = true;
+		</c:if>
+</script>
+	
+<script>
+	<c:set var="sisAdmin" value="${sisAdmin}" />
+	<c:if test="${sisAdmin ==  'true'}">
+		 document.getElementById("isAdmin").checked = true 
+	</c:if>
+	
+	<c:set var="sisActive" value="${sisActive}" />
+	<c:if test="${sisActive ==  'true'}">
+		document.getElementById("isActive").checked = true
+	</c:if>
+
+</script>	
+
+	<script>
     	
-   <c:if/>
-    	
-   <c:if test="${empty searchResult}">
+   <c:if test="${suserID == 0}">
+   		document.getElementById("searchLabel").innerHTML = 'Your search did not return any results.';
 		document.getElementById("email").value = "";
     	document.getElementById("firstname").value = "";
     	document.getElementById("lastname").value = "";
     	document.getElementById("phone").value = "";
     	document.getElementById("address").value = "";
-    	document.getElementById("zipcode").value = "";
+    	document.getElementById("zipCode").value = "";
     	document.getElementById("city").value = "";
     	document.getElementById("country").value = "";
     	document.getElementById("website").value = "";
     	document.getElementById("bdayselector").value = "";
     	document.getElementById("monthselector").value = "";
     	document.getElementById("yearselector").value = "";
-    	
-   <c:if/>
+    	document.getElementById("UserIDText").value = "";
+    
+   </c:if>
     						
     </script>
 
-	<script>
-		<c:if test="${gender.pSystem == 'F'}">
-			document.getElementById("female").checked = true;
-		<c:if/>
-
-		<c:if test="${gender.pSystem == 'M'}">
-			document.getElementById("male").checked = true;
-		<c:if/>
-	</script>
 
 
-
+<script>
 	<c:forEach var="vmap" items="${errors}">
 		<c:set var="key" value="${vmap.key}" />
-		<script>
+
     		document.getElementById('<c:out value="${key}"/>').style.background = "#eda6ac";
 			document.getElementById('<c:out value="${key}"/>').style.borderColor = "#f50015";
 			document.getElementById('<c:out value="${key}"/>').style.borderStyle = "solid"; 
 			document.getElementById('<c:out value="${key}"/>').style.borderWidth = "1px 1px 1px 1px";
-		</script>
+		
 		<c:if test = "${vmap.key=='emailExist'}">
-			<script>
+
 				document.getElementById('email').style.background = "#eda6ac";
 				document.getElementById('email').style.borderColor = "#f50015";
 				document.getElementById('email').style.borderStyle = "solid"; 
 				document.getElementById('email').style.borderWidth = "1px 1px 1px 1px";
-			</script>
+			
 		</c:if>
+		
 	</c:forEach>
+</script>
 
 </body>
 </html>

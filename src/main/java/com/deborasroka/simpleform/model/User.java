@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class User extends Customer {
-	
+
 	private int customerID;
 	private Boolean isAdmin;
 	private Boolean isActive;
@@ -48,5 +48,34 @@ public class User extends Customer {
 		this.customerID = customerID;
 	}
 	
+	
+	public boolean validateUserPassword(String password) {
+		
+		Matcher matcher;
+	
+
+		Pattern passwordPattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{6,15}$");
+
+		if (password == null || password.isEmpty() ) {
+
+			return false;
+
+		} else {
+
+			matcher = passwordPattern.matcher(password);
+
+			if (!matcher.matches()) {
+				return false;
+
+			} else return true;
+		}
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "User [customerID=" + customerID + ", isAdmin=" + isAdmin + ", isActive=" + isActive + ", isConfirmed="
+				+ isConfirmed + "]";
+	}
 
 }

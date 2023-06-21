@@ -50,5 +50,15 @@ version="4.0">
   	<url-pattern>/usersearch</url-pattern>
   </servlet-mapping>
   
+    <servlet>
+  	<servlet-name>UserUpdate</servlet-name>
+  	<servlet-class>com.deborasroka.simpleform.control.UserUpdateServlet</servlet-class>
+  </servlet>
+    
+  <servlet-mapping>
+  	<servlet-name>UserUpdate</servlet-name>
+  	<url-pattern>/userUpdate</url-pattern>
+  </servlet-mapping>
+  
   
 </web-app>

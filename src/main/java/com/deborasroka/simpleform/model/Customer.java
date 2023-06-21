@@ -27,8 +27,6 @@ public class Customer {
 	private String yday;
 	private boolean privacyAgr;
 	private boolean offers;
-
-
 	@Override
 	public String toString() {
 		return "Customer [ID=" + ID + ", firstName=" + firstName + ", LastName=" + LastName + ", email=" + email

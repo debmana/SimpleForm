@@ -29,11 +29,23 @@ public class Main {
 //		System.out.println("this is the result in main " + test);
 
 		
-		System.out.println("AAAAAAAAAAAAAAAAHHHHHHHHHHHHHHH " + CONST.DB_PASS);
+		/*System.out.println("AAAAAAAAAAAAAAAAHHHHHHHHHHHHHHH " + CONST.DB_PASS);
 		System.out.println("AAAAAAAAAAAAAAAAHHHHHHHHHHHHHHH " + CONST.DB_USER);
 		System.out.println("AAAAAAAAAAAAAAAAHHHHHHHHHHHHHHH " + CONST.CAPKEY);
-		System.out.println("AAAAAAAAAAAAAAAAHHHHHHHHHHHHHHH " + CONST.CAPSEC);
+		System.out.println("AAAAAAAAAAAAAAAAHHHHHHHHHHHHHHH " + CONST.CAPSEC); */
 		
+		
+		String test = "a";
+		String test1 = "      ";
+		String test4 = "";
+		String test3= null;
+		
+		System.out.println("Hello this is the test with character a:  isblank " + test.isBlank() + " isEmpty " + test.isEmpty());
+		
+		System.out.println("Hello this is the test with character \"    \": isblank  " + test1.isBlank() + " isEmpty " + test1.isEmpty());
+		System.out.println("Hello this is the test with character \"\": isblank " + test4.isBlank() + " isEmpty " + test4.isEmpty());
+		
+		System.out.println("Hello this is the test with character null:  isblank " + test3.isBlank() + " isEmpty  " + test3.isEmpty());
 		
 		// TODO Auto-generated method stub
 		
